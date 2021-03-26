@@ -1,0 +1,7 @@
+Subject line  						<= use verbs in the infinitive
+(try to keep under 20 characters)
+
+Multi-line description of commit,	<= use verbs in the past simple
+feel free to be detailed.
+
+[Ticket: X]							<= if not response to ticket delete this
