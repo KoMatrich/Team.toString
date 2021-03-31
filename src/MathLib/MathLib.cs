@@ -2,6 +2,14 @@ namespace MathLib
 {
     public static class MyMath
     {
+        //  1/(10^28) is smallest decimal number
+        public static readonly decimal Epsilon = (decimal)(1 / System.Math.Pow(10, 20));
+
+        public static bool Equal(decimal number1, decimal number2)
+        {
+            return System.Math.Abs(number1 - number2) < Epsilon;
+        }
+
         public static decimal Add(decimal number1, decimal number2)
         {
             return 0;
@@ -53,11 +61,6 @@ namespace MathLib
         }
 
         public static decimal Rand()
-        {
-            return 0;
-        }
-
-        public static decimal E()
         {
             return 0;
         }
