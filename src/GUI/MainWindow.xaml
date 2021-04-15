@@ -5,7 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="400">
-    <Grid>
-    </Grid>
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Height="500" Width="400" MinWidth="300" MinHeight="300"
+        Title="Kalkulačka" Background="#333">
+    <UniformGrid Rows="6" Columns="5" Margin="10">
+        <UniformGrid.Resources>
+            <!-- Style for each button in the UniformGrid (round corners, margins, no borders) -->
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Background" Value="#A0A0A0" />
+                <Style.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </UniformGrid.Resources>
+        <!-- Row 1 -->
+        <Button ContentTemplate="{StaticResource img_pi}" />
+        <Button ContentTemplate="{StaticResource img_e}" />
+        <Button ContentTemplate="{StaticResource img_reciprocal}" />
+        <Button ContentTemplate="{StaticResource img_clear}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_del}" Background="White" />
+        <!-- Row 2 -->
+        <Button ContentTemplate="{StaticResource img_squared}" />
+        <Button ContentTemplate="{StaticResource img_factorial}" />
+        <Button ContentTemplate="{StaticResource img_abs}" />
+        <Button ContentTemplate="{StaticResource img_mod}" />
+        <Button ContentTemplate="{StaticResource img_divide}" />
+        <!-- Row 3 -->
+        <Button ContentTemplate="{StaticResource img_power}" />
+        <Button ContentTemplate="{StaticResource img_7}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_8}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_9}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_multiply}" />
+        <!-- Row 4 -->
+        <Button ContentTemplate="{StaticResource img_sqrt}" />
+        <Button ContentTemplate="{StaticResource img_4}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_5}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_6}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_subtract}" />
+        <!-- Row 5 -->
+        <Button ContentTemplate="{StaticResource img_nthroot}" />
+        <Button ContentTemplate="{StaticResource img_1}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_2}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_3}" Background="White" />
+        <Button ContentTemplate="{StaticResource img_add}" />
+        <!-- Row 6 -->
+        <Button ContentTemplate="{StaticResource img_x10n}" />
+        <Button ContentTemplate="{StaticResource img_0}" />
+        <Button ContentTemplate="{StaticResource img_comma}" />
+        <Button ContentTemplate="{StaticResource img_plusminus}" />
+        <Button ContentTemplate="{StaticResource img_equals}" Background="#FF683E" />
+    </UniformGrid>
 </Window>
