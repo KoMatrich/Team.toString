@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Profiling": {
+      "commandName": "Project",
+      "commandLineArgs": "<testLine.txt >out.txt",
+      "workingDirectory": ".\\",
+      "jsWebView2Debugging": false
+    }
+  }
+}

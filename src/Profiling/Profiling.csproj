@@ -3,6 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <Copyright>GPLv3</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
