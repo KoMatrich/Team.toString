@@ -1,39 +1,113 @@
+/**
+ * Matematická knihovna.
+ *
+ * Jedná se o matematickou knihovnu která pracuje s čísly formátu decimal.
+ */
+
 namespace MathLib
 {
     public static class MyMath
     {
-        //  1/(10^28) is smallest decimal number
-        public static readonly decimal Epsilon = (decimal)(1 / System.Math.Pow(10, 20));
+        /**
+         * Maximalní přijatelná chyba výpočtu
+         *
+         *          Epsilon = 1e-20m
+         */
+
+        public static readonly decimal Epsilon = 1e-20m;
+
+        /**
+         * Porovnává dvě čísla
+         *
+         * Pokud absolutní odchylka dvou čísel je menší jak Epsilon funkce vrací true
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code Abs(number1 - number2) < Epsilon}
+         */
 
         public static bool Equal(decimal number1, decimal number2)
         {
             return System.Math.Abs(number1 - number2) < Epsilon;
         }
 
+        /**
+         * Sečte dvě čísla
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code number1 + number2}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
+
         public static decimal Add(decimal number1, decimal number2)
         {
-            return ((number1)+(number2));
+            return (number1 + number2);
         }
+
+        /**
+         * Odečítá dvě čísla
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code number1 - number2}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Sub(decimal number1, decimal number2)
         {
-            return ((number1) - (number2));
+            return (number1 - number2);
         }
+
+        /**
+         * Násobí dvě čísla
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code number1 * number2}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Mult(decimal number1, decimal number2)
         {
-            return ((number1) * (number2));
+            return (number1 * number2);
         }
+
+        /**
+         * Dělí první číslo druhým číslem
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code number1 / number2}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Div(decimal number1, decimal number2)
         {
-            return ((number1) / (number2));
+            return (number1 / number2);
         }
+
+        /**
+         * Provádí operaci modulo na 1. čísle číslem 2.
+         *
+         * @param   number1 první číslo
+         * @param   number2 druhé číslo
+         * @return  {@code number1 % number2}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Mod(decimal number1, decimal number2)
         {
-            return ((number1) % (number2));
+            return (number1 % number2);
         }
+
+        /**
+         * Vrací faktorial čísla
+         *
+         * @param   number číslo
+         * @return  {@code !(number)}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Fact(decimal number)
         {
@@ -49,8 +123,14 @@ namespace MathLib
             }
             else {
                 return System.Convert.ToDecimal(Gamma(decimal.ToDouble(number)));
-            }            
+            }
         }
+
+        /**
+         * Pomocná funkce pro Fact
+         *
+         * @param   n nevim
+         */
 
         private static double Gamma(double n)
         {
@@ -63,38 +143,52 @@ namespace MathLib
             }
             n -= 1;
             double x = p[0];
-            for (var i = 1; i < g ;i++) {
+            for (int i = 1; i < g; i++) {
                 x += p[i] / (n + i);
             }
             double t = n + g + 0.5;
-            return (System.Math.Sqrt(2 * System.Math.PI) * (System.Math.Pow(t, n + 0.5)) * System.Math.Exp(-t) * x)/2;
-               
+            return (System.Math.Sqrt(2 * System.Math.PI) * (System.Math.Pow(t, n + 0.5)) * System.Math.Exp(-t) * x) / 2;
         }
 
+        /**
+         * Provádí umocnění čísla number^n
+         *
+         * @param   number číslo
+         * @param   n stupeň mocniny
+         * @return  {@code number^n}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Pow(decimal number, decimal n)
         {
-            if(number == 0) {
+            if (number == 0) {
                 return 0;
             }
             if (n == 0) {
                 return 1;
             }
-            if(n < 0) {
+            if (n < 0) {
                 number = 1 / number;
                 n *= -1;
             }
             decimal result = number;
-            for(decimal i = 1; i < n ; i++) {
+            for (decimal i = 1; i < n; i++) {
                 result *= number;
             }
             return result;
         }
 
+        /**
+         * Provádí n odmocninu čísla number
+         *
+         * @param   number číslo
+         * @param   n stupeň odmocniny
+         * @return  {@code number^(1/number2)}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
+
         public static decimal Root(decimal number, decimal n)
         {
-
-
             if (n < 1 && n > 0)
                 return (Pow(number, 1 / n));
 
@@ -105,7 +199,6 @@ namespace MathLib
             while (Abs(x[0] - x[1]) > Epsilon) {
                 x[1] = x[0];
                 x[0] = (1 / _n) * (((_n - 1) * x[1]) + (number / Pow(x[1], _n - 1)));
-
             }
             if (n > 0) {
                 return x[0];
@@ -115,23 +208,42 @@ namespace MathLib
             }
         }
 
+        /**
+         * Provádí 2. odmocninu čísla number
+         *
+         * @param   number číslo
+         * @return  {@code number^(1/2)}
+         * @note    Odchylka výpočtu je menší jak Epsilon
+         */
 
         public static decimal Sqrt(decimal number)
         {
             return Root(number, 2);
         }
 
+        /**
+         * Vrací absolutní hodnotu number
+         *
+         * @param   number číslo
+         * @return  Absolutní hodnota čisla
+         */
+
         public static decimal Abs(decimal number)
         {
-            if (number < 0)
-                return (number*(-1));
-            return number;
+            return (number < 0) ? (-number) : (number);
         }
+
+        /**
+         * Generuje náhodné číslo
+         *
+         * @return  náhodné číslo
+         * @warning Není vhodné pro generování náhodných čísel pro zabezpečení.
+         */
 
         public static decimal Rand()
         {
-            System.Random rand = new System.Random();
-            return rand.Next(0, 1000);
+            System.Random rand = new();
+            return rand.Next(int.MinValue, int.MaxValue);
         }
     }
 }

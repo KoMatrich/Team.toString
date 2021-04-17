@@ -1,11 +1,27 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static MathLib.MyMath;
 
-namespace MathLib.Tests
+/**
+ * Testy matematické knihovny.
+ *
+ * Testuje jednotlivé matematické funkce předdefinovanými konstantami.
+ * výsledky matematických funkcí se nesmí lišit od axiomu o více jak Epsilon.
+ * @see MathLib
+ * @see MathLib.MyMath.Epsilon
+ */
+
+namespace Tests
 {
     [TestClass()]
-    public class MathTests
+    public class MyMath
     {
+        /**
+        * Test na porovnávání čísel
+        *
+        * @warning tento test musí projít, aby mohly ostatní testy spolehlivě testovat funkce
+        * @see MathLib.MyMath.Equal
+        */
+
         [TestMethod()]
         public void EqualTest()
         {
@@ -47,6 +63,12 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+        * Test na sčítání čísel
+        *
+        * @see MathLib.MyMath.Add
+        */
+
         [TestMethod()]
         public void AddTest()
         {
@@ -67,6 +89,12 @@ namespace MathLib.Tests
                 Assert.IsTrue(Equal(Add(x, y), Add(y, x)), msg);
             }
         }
+
+        /**
+        * Test na odečítání čísel
+        *
+        * @see MathLib.MyMath.Sub
+        */
 
         [TestMethod()]
         public void SubTest()
@@ -89,6 +117,12 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+        * Test na násobení čísel
+        *
+        * @see MathLib.MyMath.Mult
+        */
+
         [TestMethod()]
         public void MultTest()
         {
@@ -110,6 +144,12 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+        * Test na dělení čísel
+        *
+        * @see MathLib.MyMath.Div
+        */
+
         [TestMethod()]
         public void DivTest()
         {
@@ -127,6 +167,12 @@ namespace MathLib.Tests
                 Assert.IsTrue(Equal(Div(x, y), z), msg);
             }
         }
+
+        /**
+        * Test na modulo operaci
+        *
+        * @see MathLib.MyMath.Mod
+        */
 
         [TestMethod()]
         public void ModTest()
@@ -146,6 +192,12 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+        * Test na faktorial
+        *
+        * @see MathLib.MyMath.Fact
+        */
+
         [TestMethod()]
         public void FactTest()
         {
@@ -162,6 +214,12 @@ namespace MathLib.Tests
                 Assert.IsTrue(Equal(Fact(x), y), msg);
             }
         }
+
+        /**
+        * Test na funkci mocniny
+        *
+        * @see MathLib.MyMath.Pow
+        */
 
         [TestMethod()]
         public void PowTest()
@@ -180,6 +238,12 @@ namespace MathLib.Tests
                 Assert.IsTrue(Equal(Pow(x, y), z), msg);
             }
         }
+
+        /**
+        * Test na funkci odmocniny
+        *
+        * @see MathLib.MyMath.Root
+        */
 
         [TestMethod()]
         public void RootTest()
@@ -200,6 +264,12 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+        * Test na funkci 2 odmocniny
+        *
+        * @see MathLib.MyMath.Sqrt
+        */
+
         [TestMethod()]
         public void SqrtTest()
         {
@@ -217,6 +287,12 @@ namespace MathLib.Tests
                 Assert.IsTrue(Equal(Sqrt(x), y), msg);
             }
         }
+
+        /**
+         * Test na absolutní hodnoutu
+         *
+         * @see MathLib.MyMath.Abs
+         */
 
         [TestMethod()]
         public void AbsTest()
@@ -238,6 +314,13 @@ namespace MathLib.Tests
             }
         }
 
+        /**
+         * Test na generování náhodných čísel
+         *
+         * @note U tohoto testu je šasnce, že neprojde. Tato šance je 1 : (10^6^1000), kvůli samotné implementace funkce Rand
+         * @see MathLib.MyMath.Rand
+         */
+
         [TestMethod()]
         public void RandTest()
         {
@@ -253,8 +336,6 @@ namespace MathLib.Tests
             }
             string msg = $"Random function generated {count} same numbers.";
             Assert.IsTrue(found_dif, msg);
-            //chance that this test will randomly fail is 10^28^1000
-            //from that we can say that this test is always testing correctly
         }
     }
 }
