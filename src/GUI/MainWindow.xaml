@@ -8,55 +8,66 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Height="500" Width="400" MinWidth="300" MinHeight="300"
         Title="Kalkulačka" Background="#333">
-    <UniformGrid Rows="6" Columns="5" Margin="10">
-        <UniformGrid.Resources>
-            <!-- Style for each button in the UniformGrid (round corners, margins, no borders) -->
-            <Style TargetType="Button">
-                <Setter Property="Margin" Value="5" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Background" Value="#A0A0A0" />
-                <Style.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </Style.Resources>
-            </Style>
-        </UniformGrid.Resources>
-        <!-- Row 1 -->
-        <Button ContentTemplate="{StaticResource img_pi}" />
-        <Button ContentTemplate="{StaticResource img_e}" />
-        <Button ContentTemplate="{StaticResource img_reciprocal}" />
-        <Button ContentTemplate="{StaticResource img_clear}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_del}" Background="White" />
-        <!-- Row 2 -->
-        <Button ContentTemplate="{StaticResource img_squared}" />
-        <Button ContentTemplate="{StaticResource img_factorial}" />
-        <Button ContentTemplate="{StaticResource img_abs}" />
-        <Button ContentTemplate="{StaticResource img_mod}" />
-        <Button ContentTemplate="{StaticResource img_divide}" />
-        <!-- Row 3 -->
-        <Button ContentTemplate="{StaticResource img_power}" />
-        <Button ContentTemplate="{StaticResource img_7}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_8}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_9}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_multiply}" />
-        <!-- Row 4 -->
-        <Button ContentTemplate="{StaticResource img_sqrt}" />
-        <Button ContentTemplate="{StaticResource img_4}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_5}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_6}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_subtract}" />
-        <!-- Row 5 -->
-        <Button ContentTemplate="{StaticResource img_nthroot}" />
-        <Button ContentTemplate="{StaticResource img_1}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_2}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_3}" Background="White" />
-        <Button ContentTemplate="{StaticResource img_add}" />
-        <!-- Row 6 -->
-        <Button ContentTemplate="{StaticResource img_x10n}" />
-        <Button ContentTemplate="{StaticResource img_0}" />
-        <Button ContentTemplate="{StaticResource img_comma}" />
-        <Button ContentTemplate="{StaticResource img_plusminus}" />
-        <Button ContentTemplate="{StaticResource img_equals}" Background="#FF683E" />
-    </UniformGrid>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Border Background="White" CornerRadius="10" Margin="5,5,5,10" Padding="10,5">
+            <Viewbox Stretch="Uniform" HorizontalAlignment="Right" Grid.Row="1">
+                <TextBlock x:Name="expressionField" Text="0" />
+            </Viewbox>
+        </Border>
+        <UniformGrid Rows="6" Columns="5" Grid.Row="1">
+            <UniformGrid.Resources>
+                <!-- Style for each button in the UniformGrid (round corners, margins, no borders) -->
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="#A0A0A0" />
+                    <Style.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+            </UniformGrid.Resources>
+            <!-- Row 1 -->
+            <Button ContentTemplate="{StaticResource img_pi}" Tag="π" Click="PrefixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_e}" Tag="e" Click="PrefixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_reciprocal}" Tag="^-1 " Click="PostfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_clear}" Click="Clear_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_del}" Click="Delete_Click" Background="White" />
+            <!-- Row 2 -->
+            <Button ContentTemplate="{StaticResource img_squared}" Tag="^2 " Click="PostfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_factorial}" Tag="!" Click="PostfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_abs}" Tag="abs " Click="PrefixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_mod}" Tag=" mod " Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_divide}" Tag="÷" Click="InfixOperator_Click" />
+            <!-- Row 3 -->
+            <Button ContentTemplate="{StaticResource img_power}" Tag="^" Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_7}" Tag="7" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_8}" Tag="8" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_9}" Tag="9" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_multiply}" Tag="·" Click="InfixOperator_Click" />
+            <!-- Row 4 -->
+            <Button ContentTemplate="{StaticResource img_sqrt}" Tag="√" Click="PrefixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_4}" Tag="4" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_5}" Tag="5" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_6}" Tag="6" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_subtract}" Tag="-" Click="InfixOperator_Click" />
+            <!-- Row 5 -->
+            <Button ContentTemplate="{StaticResource img_nthroot}" Tag=" root " Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_1}" Tag="1" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_2}" Tag="2" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_3}" Tag="3" Click="DigitButton_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_add}" Tag="+" Click="InfixOperator_Click" />
+            <!-- Row 6 -->
+            <Button ContentTemplate="{StaticResource img_x10n}" Tag="·10^" Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_0}" Tag="0"  Click="DigitButton_Click" />
+            <Button ContentTemplate="{StaticResource img_comma}" Tag="," Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_plusminus}" Tag="*-1 " Click="PostfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_equals}" Click="Evaluate_Click" Background="#FF683E" />
+        </UniformGrid>
+    </Grid>
 </Window>
