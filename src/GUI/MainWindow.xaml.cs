@@ -41,7 +41,12 @@ namespace GUI
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            ClearAfterError();
+            DeleteToTheLeft();
+        }
+
+        private void DeleteToTheLeft()
+        {
+            PrepareBeforeInput();
 
             // TextField content can be split into multiple Inlines (usually Runs),
             // which can be used to position or style different parts differently (e.g. overline for sqrt)
@@ -63,19 +68,19 @@ namespace GUI
 
         private void PrependText(string text)
         {
-            ClearAfterError();
+            PrepareBeforeInput();
             GetExpressionParts().FirstInline.ContentStart.InsertTextInRun(text);
         }
 
         private void AppendText(string text)
         {
-            ClearAfterError();
+            PrepareBeforeInput();
             GetExpressionParts().LastInline.ContentEnd.InsertTextInRun(text);
         }
 
         private void SetExpressionParts(params Inline[] parts)
         {
-            ClearAfterError();
+            PrepareBeforeInput();
             expressionField.Inlines.Clear();
             expressionField.Inlines.AddRange(parts);
         }
@@ -116,6 +121,11 @@ namespace GUI
         private void PostfixOperator_Click(object sender, RoutedEventArgs e)
         {
             AppendText((string)((sender as Button)?.Tag));
+        }
+
+        private void PowerOfTen_Click(object sender, RoutedEventArgs e)
+        {
+            AppendText(string.IsNullOrWhiteSpace(expressionField.Text) ? "10^" : "·10^");
         }
 
         private void Reciprocal_Click(object sender, RoutedEventArgs e)
@@ -189,12 +199,16 @@ namespace GUI
             ));
         }
 
-        // To clear the expression field if the previous computation resulted in an error
-        private void ClearAfterError()
+        private void PrepareBeforeInput()
         {
+            // Clear the expression field if the previous computation resulted in an error
             if (CurrentlyShowingResult && lastCalculationResult.status != CalculationStatus.Ok) {
                 ClearAll();
             }
+            // Clear the last calculation result since we are modifying the expression.
+            // If we didn't do this, typing e.g. "7" when the expr. field is "7"
+            // when previous computation result was "7" would never do anything.
+            lastCalculationResult = default;
         }
 
         private void Evaluate()
