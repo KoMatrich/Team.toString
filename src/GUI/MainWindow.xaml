@@ -72,7 +72,7 @@
             <Button ContentTemplate="{StaticResource img_3}" Tag="3" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_add}" Tag="+" Click="InfixOperator_Click" />
             <!-- Row 6 -->
-            <Button ContentTemplate="{StaticResource img_x10n}" Tag="·10^" Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_x10n}" Click="PowerOfTen_Click" />
             <Button ContentTemplate="{StaticResource img_0}" Tag="0"  Click="DigitButton_Click" />
             <Button ContentTemplate="{StaticResource img_comma}" Tag="," Click="InfixOperator_Click" />
             <Button ContentTemplate="{StaticResource img_plusminus}" Click="Negate_Click" />
