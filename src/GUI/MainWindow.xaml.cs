@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace GUI
 {
@@ -9,6 +11,18 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        // A tag used to mark parts of expressions (Runs in TextField) that should be
+        // removed with a single press of DEL, not per character, like "mod" or "abs"
+        const string AtomicRunTag = "(atomic)";
+
+        MathExpressionEvaluator exprEvaluator = new();
+        (string displayText, CalculationStatus status) lastCalculationResult;
+
+        // true iff the last button pressed was `=`, so the expression field
+        // currently contains the result of the calculation (which can be an error)
+        private bool CurrentlyShowingResult
+            => expressionField.Text == lastCalculationResult.displayText;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -18,49 +32,196 @@ namespace GUI
         {
             string digit = ((Button)sender).Tag.ToString();
 
-            if (expressionField.Text == "0") {
+            if (CurrentlyShowingResult) {
                 expressionField.Text = "";
             }
 
-            expressionField.Text += digit;
+            AppendText(digit);
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            if (expressionField.Text.Length > 1) {
-                expressionField.Text = expressionField.Text[0..^1];
-            }
-            else {
-                expressionField.Text = "0";
+            ClearAfterError();
+
+            // TextField content can be split into multiple Inlines (usually Runs),
+            // which can be used to position or style different parts differently (e.g. overline for sqrt)
+
+            if (expressionField.Text.Length > 0) {
+                var lastInline = GetExpressionParts().LastInline;
+                bool atomic = lastInline.Tag as string == AtomicRunTag;
+
+                if (!atomic) {
+                    lastInline.ContentEnd.DeleteTextInRun(-1);
+                }
+
+                bool emptyInline = lastInline.ContentEnd.CompareTo(lastInline.ContentStart) <= 0;
+                if (atomic || emptyInline) {
+                    expressionField.Inlines.Remove(lastInline);
+                }
             }
         }
 
-        private void Clear_Click(object sender, RoutedEventArgs e)
+        private void PrependText(string text)
         {
-            expressionField.Text = "0";
+            ClearAfterError();
+            GetExpressionParts().FirstInline.ContentStart.InsertTextInRun(text);
+        }
+
+        private void AppendText(string text)
+        {
+            ClearAfterError();
+            GetExpressionParts().LastInline.ContentEnd.InsertTextInRun(text);
+        }
+
+        private void SetExpressionParts(params Inline[] parts)
+        {
+            ClearAfterError();
+            expressionField.Inlines.Clear();
+            expressionField.Inlines.AddRange(parts);
+        }
+
+        private InlineCollection GetExpressionParts()
+        {
+            if (expressionField.Inlines.Count == 0)
+                expressionField.Inlines.Add("");
+            return expressionField.Inlines;
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e) => ClearAll();
+
+        private void ClearAll()
+        {
+            // Restore everything to default state
+            expressionField.Text = "";
+            previousComputation.Text = "";
+            previousComputationRow.Height = new GridLength(0);
+            lastCalculationResult = default;
         }
 
         private void PrefixOperator_Click(object sender, RoutedEventArgs e)
         {
-            if (expressionField.Text == "0") {
-                expressionField.Text = "";
+            if (CurrentlyShowingResult) {
+                PrependText((string)((sender as Button)?.Tag));
             }
-
-            expressionField.Text += (sender as Button)?.Tag;
+            else {
+                AppendText((string)((sender as Button)?.Tag));
+            }
         }
 
         private void InfixOperator_Click(object sender, RoutedEventArgs e)
         {
-            expressionField.Text += (sender as Button)?.Tag;
+            AppendText((string)((sender as Button)?.Tag));
         }
 
         private void PostfixOperator_Click(object sender, RoutedEventArgs e)
         {
-            expressionField.Text += (sender as Button)?.Tag;
+            AppendText((string)((sender as Button)?.Tag));
+        }
+
+        private void Reciprocal_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(expressionField.Text)) {
+                PrependText("1/");
+                return;
+            }
+
+            EvaluateAndModify(actionIfOk: x => SetExpressionParts(
+                new Run("1/") { Tag = AtomicRunTag },
+                new Run(x),
+                new Run("")
+            ));
+        }
+
+        private void Abs_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(expressionField.Text)) {
+                SetExpressionParts(
+                    new Run("abs ") { Tag = AtomicRunTag },
+                    new Run("")
+                );
+                return;
+            }
+
+            EvaluateAndModify(actionIfOk: x => SetExpressionParts(
+                new Run("abs ") { Tag = AtomicRunTag },
+                new Run(x)
+            ));
+        }
+
+        private void Mod_Click(object sender, RoutedEventArgs e)
+        {
+            EvaluateAndModify(actionIfOk: x => SetExpressionParts(
+                new Run(x),
+                new Run(" mod ") { Tag = AtomicRunTag },
+                new Run("")
+            ));
+        }
+
+        private void Negate_Click(object sender, RoutedEventArgs e)
+        {
+            EvaluateAndModify(actionIfOk: x => SetExpressionParts(
+                new Run("-"),
+                new Run(x)
+            ));
         }
 
         private void Evaluate_Click(object sender, RoutedEventArgs e)
+            => Evaluate();
+
+        private void Sqrt_Click(object sender, RoutedEventArgs e)
         {
+            EvaluateAndModify(actionIfOk: x => SetExpressionParts(
+                new Run("√") { FontSize = expressionField.FontSize * 1.3 },
+                new Run(text: x) { TextDecorations = { TextDecorations.OverLine } },
+                new Run(" ")
+            ));
+        }
+
+        private void NthRoot_Click(object sender, RoutedEventArgs e)
+        {
+            EvaluateAndModify(actionIfOk: n => SetExpressionParts(
+                new Run(text: n) {
+                    BaselineAlignment = BaselineAlignment.Superscript,
+                },
+                //new Run(text: x) { Typography = { Variants = FontVariants.Superscript } },
+                new Run(" root ") { Tag = AtomicRunTag, ToolTip = $"n-tá odmocnina (n={n})" },
+                new Run("")
+            ));
+        }
+
+        // To clear the expression field if the previous computation resulted in an error
+        private void ClearAfterError()
+        {
+            if (CurrentlyShowingResult && lastCalculationResult.status != CalculationStatus.Ok) {
+                ClearAll();
+            }
+        }
+
+        private void Evaluate()
+        {
+            previousComputation.Text = expressionField.Text;
+            previousComputationRow.Height = new GridLength(1, GridUnitType.Star);
+
+            CalculationResult result = exprEvaluator.EvaluateExpression(expressionField.Text);
+            expressionField.Text = result.Status switch {
+                CalculationStatus.DivisionByZero => "Nelze dělit nulou",
+                CalculationStatus.Overflow => "Příliš velké číslo",
+                CalculationStatus.InvalidExpression => "Chyba",
+                CalculationStatus.Ok => result.Result
+            };
+            lastCalculationResult = (displayText: expressionField.Text, status: result.Status);
+        }
+
+        private void EvaluateAndModify(Action<string> actionIfOk)
+        {
+            if (CurrentlyShowingResult && lastCalculationResult.status != CalculationStatus.Ok) {
+                return;
+            }
+
+            Evaluate();
+            if (lastCalculationResult.status == CalculationStatus.Ok) {
+                actionIfOk(lastCalculationResult.displayText);
+            }
         }
     }
 }
