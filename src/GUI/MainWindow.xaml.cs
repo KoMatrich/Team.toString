@@ -6,9 +6,9 @@ using System.Windows.Documents;
 
 namespace GUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /**
+     * Hlavní okno kalkulačky
+     */
     public partial class MainWindow : Window
     {
         // A tag used to mark parts of expressions (Runs in TextField) that should be
@@ -44,6 +44,10 @@ namespace GUI
             DeleteToTheLeft();
         }
 
+        /**
+         * Vymaže poslední znak v poli výrazů, případně poslední @c Inline,
+         * pokud má @c Tag nastavený na @c AtomicRunTag
+         */
         private void DeleteToTheLeft()
         {
             PrepareBeforeInput();
@@ -78,6 +82,9 @@ namespace GUI
             GetExpressionParts().LastInline.ContentEnd.InsertTextInRun(text);
         }
 
+        /**
+         * Nahradí obsah pole výrazů částmi specifikovanými v @p parts.
+         */
         private void SetExpressionParts(params Inline[] parts)
         {
             PrepareBeforeInput();
@@ -85,6 +92,10 @@ namespace GUI
             expressionField.Inlines.AddRange(parts);
         }
 
+        /** 
+         * Vrátí všechny části pole výrazů. 
+         * Např. <tt>{ Run("4"), Run(" mod "), Run("1+2") }</tt>
+         */
         private InlineCollection GetExpressionParts()
         {
             if (expressionField.Inlines.Count == 0)
@@ -211,6 +222,10 @@ namespace GUI
             lastCalculationResult = default;
         }
 
+        /**
+         * Vyhodnotí aktuálně zadaný výraz a výsledek (případně chybu) vloží zpět do pole výrazů. 
+         * Výsledek i status se také vloží do @c lastCalculationResult.
+         */
         private void Evaluate()
         {
             previousComputation.Text = expressionField.Text;
@@ -226,6 +241,12 @@ namespace GUI
             lastCalculationResult = (displayText: expressionField.Text, status: result.Status);
         }
 
+        /**
+         * Vyhodnotí aktuálně zadaný výraz a v případě úspěchu spustí předanou akci.
+         *
+         * @param actionIfOk Akce, která se spustí, pokud při výpočtu nenastala chyba,
+         *                   a jako argument je předán výsledek jako text.
+         */
         private void EvaluateAndModify(Action<string> actionIfOk)
         {
             if (CurrentlyShowingResult && lastCalculationResult.status != CalculationStatus.Ok) {

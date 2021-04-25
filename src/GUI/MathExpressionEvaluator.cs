@@ -4,13 +4,37 @@ using System.Text.RegularExpressions;
 
 namespace GUI
 {
+    /**
+     * @class GUI.CalculationResult
+     * @brief Výsledek výpočtu - formátovaný výsledek (číslo) a status (chyba).
+     */
     public record CalculationResult(string Result, CalculationStatus Status);
+
+    /** Status výpočtu - úspěch, nebo chyba (dělení nulou, přetečení, nebo chyba při zpracování výrazu). */
     public enum CalculationStatus { Ok, DivisionByZero, Overflow, InvalidExpression }
 
+    /** Třída pro výpočet hodnoty matematických výrazů zadaných v textové formě. */
     public class MathExpressionEvaluator
     {
         private static readonly CultureInfo culture = CultureInfo.GetCultureInfo("cs-CZ");
 
+        /**
+         * @brief Vyhodnotí daný výraz.
+         *
+         * @details Podporuje `+`, `-`, `·`, `*`, `×`, `÷`, `/`, dále:
+         * - mocniny: `x^n`, `x**n`
+         * - druhou odmocninu: `√x`
+         * - n-tou odmocninu: `n root x`
+         * - unární minus: `-1`
+         * - absolutní hodnota: `abs 20-170*2`
+         * - modulo: `131 mod 16`
+         * - implicitní násobení čísla a konstanty: `2π`
+         *
+         * Příklad: <tt>EvaluateExpression("1 + 2 * 3π^-2")</tt>
+         * 
+         * @returns záznam obsahující buď výsledek se statusem Ok, 
+         *          nebo výsledek `null` a status označující chybu.
+         */
         public CalculationResult EvaluateExpression(string inputExpression)
         {
             string expr = inputExpression;
@@ -124,6 +148,16 @@ namespace GUI
                 => match.Groups[groupName] is Group { Success: true } group ? group.Value : null;
         }
 
+        /**
+         * Vypočte výraz s binárním operátorem (`a OP b`).
+         * 
+         * @param operator Binární operátor, jeden z `"+"`, `"-"`, `"/"`, `"÷"`, `"×"`, `"*"`, `"^"`, `"**"`,
+         *        `" mod "`, `" root "` (včetně mezer).
+         * @param left Levý operand.
+         * @param right Pravý operand.
+         * @returns Vrací výsledek operace jako číslo Decimal.
+         * @throws ArgumentException pokud je použit nepodporovaný operátor.
+         */
         private static decimal ApplyOperator(string @operator, decimal left, decimal right)
         {
             return @operator switch {
@@ -138,6 +172,14 @@ namespace GUI
             };
         }
 
+        /**
+         * Vypočte výraz s unárním operátorem (`OP a` nebo `a OP`).
+         *
+         * @param operator Unární operátor, jeden z `"-"`, `"!"`, `"√"`, `"⎷"`, `"abs "` (včetně mezery).
+         * @param arg Operand unární operace.
+         * @returns výsledek operace jako číslo Decimal.
+         * @throws ArgumentException pokud je použit nepodporovaný operátor.
+         */
         private static decimal ApplyOperator(string @operator, decimal arg)
         {
             return @operator switch {
