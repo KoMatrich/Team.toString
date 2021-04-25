@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace GUI
 {
@@ -31,7 +32,11 @@ namespace GUI
         private void DigitButton_Click(object sender, RoutedEventArgs e)
         {
             string digit = ((Button)sender).Tag.ToString();
+            TypeDigit(digit);
+        }
 
+        private void TypeDigit(string digit)
+        {
             if (CurrentlyShowingResult) {
                 expressionField.Text = "";
             }
@@ -256,6 +261,42 @@ namespace GUI
             Evaluate();
             if (lastCalculationResult.status == CalculationStatus.Ok) {
                 actionIfOk(lastCalculationResult.displayText);
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.Back) {
+                DeleteToTheLeft();
+                e.Handled = true;
+            }
+            else if (e.Key is Key.Delete or Key.C) {
+                ClearAll();
+                e.Handled = true;
+            }
+            else if (e.Key is Key.P) {
+                TypeDigit("π");
+                e.Handled = true;
+            }
+        }
+
+        private void Window_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            const string directlyEnterableCharacters = "+-*/÷×·!,πe^";
+
+            foreach (char key in e.Text) {
+                if (char.IsDigit(key)) {
+                    TypeDigit(key.ToString());
+                    e.Handled = true;
+                }
+                else if (directlyEnterableCharacters.Contains(key)) {
+                    AppendText(key.ToString());
+                    e.Handled = true;
+                }
+                else if (key == '.') {
+                    AppendText(",");
+                    e.Handled = true;
+                }
             }
         }
     }

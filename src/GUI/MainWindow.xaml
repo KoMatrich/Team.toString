@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Height="600" Width="400" MinWidth="300" MinHeight="300"
-        Title="Kalkulačka" Background="#333">
+        Title="Kalkulačka" Background="#333" 
+        KeyDown="Window_KeyDown" TextInput="Window_TextInput">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -34,6 +35,7 @@
                     <Setter Property="Margin" Value="5" />
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="Background" Value="#A0A0A0" />
+                    <Setter Property="KeyboardNavigation.AcceptsReturn" Value="False" />
                     <Style.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -76,7 +78,7 @@
             <Button ContentTemplate="{StaticResource img_0}" Tag="0"  Click="DigitButton_Click" />
             <Button ContentTemplate="{StaticResource img_comma}" Tag="," Click="InfixOperator_Click" />
             <Button ContentTemplate="{StaticResource img_plusminus}" Click="Negate_Click" />
-            <Button ContentTemplate="{StaticResource img_equals}" Click="Evaluate_Click" Background="#FF683E" />
+            <Button ContentTemplate="{StaticResource img_equals}" Click="Evaluate_Click" Background="#FF683E" IsDefault="True" />
         </UniformGrid>
     </Grid>
 </Window>
