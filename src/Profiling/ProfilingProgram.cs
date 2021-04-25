@@ -28,8 +28,7 @@ namespace Profiling
                 string[] splited = line.Split(whitespace);
 
                 Parallel.ForEach(splited, split => {
-                    if (IsNum(split)) {
-                        decimal num = decimal.Parse(split);
+                    if (decimal.TryParse(split, out decimal num)) {
                         lock (splited) {
                             numbers.Add(num);
                         }
@@ -74,12 +73,6 @@ namespace Profiling
             System.Diagnostics.Debug.WriteLine("S           :{0}", s);
 #endif
             return 0;
-        }
-
-        //helping functions
-        private static bool IsNum(string input)
-        {
-            return decimal.TryParse(input, out _);
         }
     }
 }
