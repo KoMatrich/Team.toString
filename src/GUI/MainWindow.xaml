@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Height="600" Width="400" MinWidth="300" MinHeight="300"
+        Height="600" Width="400" MinWidth="300" MinHeight="400"
         Title="Kalkulačka" Background="#333" 
         KeyDown="Window_KeyDown" TextInput="Window_TextInput">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.4*"/>
         </Grid.RowDefinitions>
         <Border Background="White" CornerRadius="10" Margin="5,5,5,10" Padding="10,5">
             <Grid> 
@@ -36,6 +37,10 @@
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="Background" Value="#A0A0A0" />
                     <Setter Property="KeyboardNavigation.AcceptsReturn" Value="False" />
+                    <Setter Property="ToolTipService.ShowDuration" Value="999999" />
+                    <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                    <Setter Property="ToolTipService.Placement" Value="Center" />
+                    <Setter Property="ToolTipService.PlacementTarget" Value="{Binding ElementName=helpBar}" />
                     <Style.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -44,41 +49,84 @@
                 </Style>
             </UniformGrid.Resources>
             <!-- Row 1 -->
-            <Button ContentTemplate="{StaticResource img_pi}" Tag="π" Click="DigitButton_Click" />
-            <Button ContentTemplate="{StaticResource img_e}" Tag="e" Click="DigitButton_Click" />
-            <Button ContentTemplate="{StaticResource img_reciprocal}" Click="Reciprocal_Click" />
-            <Button ContentTemplate="{StaticResource img_clear}" Click="Clear_Click" Background="White" />
-            <Button ContentTemplate="{StaticResource img_del}" Click="Delete_Click" Background="White" />
+            <Button ContentTemplate="{StaticResource img_pi}" Tag="π" Click="DigitButton_Click"
+                    ToolTip="Vloží konstantu π=3,1415926" />
+            <Button ContentTemplate="{StaticResource img_e}" Tag="e" Click="DigitButton_Click"
+                    ToolTip="Vloží konstantu e=2,7182818" />
+            <Button ContentTemplate="{StaticResource img_reciprocal}" Click="Reciprocal_Click"
+                    ToolTip="Vyhodnotí výraz a nahradí ho jeho převrácenou hodnotou" />
+            <Button ContentTemplate="{StaticResource img_clear}" Click="Clear_Click" Background="White"
+                    ToolTip="Resetuje kalkulačku do počátečního stavu" />
+            <Button ContentTemplate="{StaticResource img_del}" Click="Delete_Click" Background="White"
+                    ToolTip="Vymaže poslední znak nebo operátor" />
             <!-- Row 2 -->
-            <Button ContentTemplate="{StaticResource img_squared}" Tag="^2 " Click="PostfixOperator_Click" />
-            <Button ContentTemplate="{StaticResource img_factorial}" Tag="!" Click="PostfixOperator_Click" />
-            <Button ContentTemplate="{StaticResource img_abs}" Click="Abs_Click" />
-            <Button ContentTemplate="{StaticResource img_mod}" Click="Mod_Click" />
+            <Button ContentTemplate="{StaticResource img_squared}" Tag="^2 " Click="PostfixOperator_Click"
+                    ToolTip="Vloží ^2 (druhou mocninu)" />
+            <Button ContentTemplate="{StaticResource img_factorial}" Tag="!" Click="PostfixOperator_Click"
+                    ToolTip="Vloží ! (faktoriál). Faktoriál má nejvyšší prioritu při vyhodnocování" />
+            <Button ContentTemplate="{StaticResource img_abs}" Click="Abs_Click"
+                    ToolTip="Vyhodnotí výraz a nahradí ho jeho absolutní hodnotou" />
+            <Button ContentTemplate="{StaticResource img_mod}" Click="Mod_Click"
+                    ToolTip="Vyhodnotí výraz a vloží operátor modulo" />
             <Button ContentTemplate="{StaticResource img_divide}" Tag="÷" Click="InfixOperator_Click" />
             <!-- Row 3 -->
-            <Button ContentTemplate="{StaticResource img_power}" Tag="^" Click="InfixOperator_Click" />
+            <Button ContentTemplate="{StaticResource img_power}" Tag="^" Click="InfixOperator_Click"
+                    ToolTip="Vloží ^ (umocnění). Vyhodnocuje se zprava – a^b^c = a^(b^c)" />
             <Button ContentTemplate="{StaticResource img_7}" Tag="7" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_8}" Tag="8" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_9}" Tag="9" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_multiply}" Tag="·" Click="InfixOperator_Click" />
             <!-- Row 4 -->
-            <Button ContentTemplate="{StaticResource img_sqrt}" Click="Sqrt_Click" />
+            <Button ContentTemplate="{StaticResource img_sqrt}" Click="Sqrt_Click"
+                    ToolTip="Vyhodnotí výraz a nahradí ho jeho druhou odmocninou" />
             <Button ContentTemplate="{StaticResource img_4}" Tag="4" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_5}" Tag="5" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_6}" Tag="6" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_subtract}" Tag="-" Click="InfixOperator_Click" />
             <!-- Row 5 -->
-            <Button ContentTemplate="{StaticResource img_nthroot}" Click="NthRoot_Click" />
+            <Button ContentTemplate="{StaticResource img_nthroot}" Click="NthRoot_Click"
+                    ToolTip="Vyhodnotí výraz jako odmocnitel (n) pro n-tou odmocninu z x" />
             <Button ContentTemplate="{StaticResource img_1}" Tag="1" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_2}" Tag="2" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_3}" Tag="3" Click="DigitButton_Click" Background="White" />
             <Button ContentTemplate="{StaticResource img_add}" Tag="+" Click="InfixOperator_Click" />
             <!-- Row 6 -->
-            <Button ContentTemplate="{StaticResource img_x10n}" Click="PowerOfTen_Click" />
+            <Button ContentTemplate="{StaticResource img_x10n}" Click="PowerOfTen_Click"
+                    ToolTip="Vloží 10^ (mocninu desítky)" />
             <Button ContentTemplate="{StaticResource img_0}" Tag="0"  Click="DigitButton_Click" />
             <Button ContentTemplate="{StaticResource img_comma}" Tag="," Click="InfixOperator_Click" />
-            <Button ContentTemplate="{StaticResource img_plusminus}" Click="Negate_Click" />
-            <Button ContentTemplate="{StaticResource img_equals}" Click="Evaluate_Click" Background="#FF683E" IsDefault="True" />
+            <Button ContentTemplate="{StaticResource img_plusminus}" Click="Negate_Click"
+                    ToolTip="Vyhodnotí výraz a nahradí ho jeho opačnou hodnotou (-x)" />
+            <Button ContentTemplate="{StaticResource img_equals}" Click="Evaluate_Click" Background="#FF683E" IsDefault="True"
+                    ToolTip="Vyhodnotí zadaný výraz a zobrazí výsledek (případně chybu)" />
         </UniformGrid>
+        <Border CornerRadius="10" Background="#555" Margin="5,5,5,0" Grid.Row="2">
+            <TextBlock x:Name="helpBar">
+                <TextBlock.Resources>
+                    <!-- Style for help tooltips targeted at helpBar -->
+                    <Style TargetType="ToolTip">
+                        <Setter Property="HasDropShadow" Value="False" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Foreground" Value="Silver" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Width" Value="Auto" />
+                        <Setter Property="FontSize" Value="15" />
+                        <!-- Sets a custom template to make sure tooltips 
+                             appear inside this area and with automatic scaling -->
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Viewbox MaxWidth="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock}}"
+                                             MaxHeight="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock}}">
+                                        <TextBlock Text="{Binding}" Foreground="White" Padding="2" />
+                                    </Viewbox>  
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBlock.Resources>
+            </TextBlock>
+        </Border>
     </Grid>
 </Window>
