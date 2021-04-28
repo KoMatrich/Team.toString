@@ -241,7 +241,7 @@ namespace GUI
                 CalculationStatus.DivisionByZero => "Nelze dělit nulou",
                 CalculationStatus.Overflow => "Příliš velké číslo",
                 CalculationStatus.InvalidExpression => "Chyba",
-                CalculationStatus.Ok => result.Result
+                _ => result.Result
             };
             lastCalculationResult = (displayText: expressionField.Text, status: result.Status);
         }

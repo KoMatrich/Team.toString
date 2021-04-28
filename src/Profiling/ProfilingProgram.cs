@@ -27,7 +27,10 @@ namespace Profiling
             while ((line = Console.ReadLine()) != null) {
                 string[] splited = line.Split(whitespace);
 
-                Parallel.ForEach(splited, split => {
+                Parallel.ForEach(
+                    splited,
+                    new ParallelOptions { MaxDegreeOfParallelism = 16},
+                    split => {
                     if (decimal.TryParse(split, out decimal num)) {
                         lock (splited) {
                             numbers.Add(num);
@@ -57,7 +60,9 @@ namespace Profiling
             decimal N_x2 = Mult(count, Pow(_x, 2));
 
             //calculate pow 2 for all numbers
-            Parallel.For(0, count, i => {
+            Parallel.For(
+                0,
+                count, i => {
                 numbers[i] = Pow(numbers[i], 2);
             });
 
