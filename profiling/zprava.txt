@@ -1,0 +1,14 @@
+Před vytvoření programu pro profiling jsem uvážil způsoby zpracování vstupních dat.
+Při vývoji programu pro profiling byla průběžně kontrolována rychlost. Samotný vývoj
+byl zaměřen na co největší paralelní zpracování. (Program může běžet pomalu na procesorech
+které nemají větší množství jader) Bohužel přičítání k proměnné není tzv. thread safe operace,
+takže jsme musel vynutit částečné sekvenční zpracování. (lock{})
+
+Program trávil relativně velké množství času zpracováním jednotlivých slov na řádku proto jsem
+udělal zpracování jednotlivých řádků částečné paralelně.
+
+Bylo by možně dále optimalizovat použitím proměnné, která podporuje paralelní zápis. Tím by se výrazně zvýšila
+rychlost profilingu, protože jednotlivé paralelní procesy by se nemusely střídat při zápisu do proměnné.
+
+Dále by bylo možné zpracovávat jednotlivé řádky paralelně, ale tato metoda by nezvýšila výkon za použití aktuálního
+typu proměnné.
