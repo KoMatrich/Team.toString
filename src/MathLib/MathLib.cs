@@ -115,26 +115,26 @@ namespace MathLib
                 if (number == 0) {
                     return 1;
                 }
-                int result = 1;
+                decimal result = 1;
                 for (int i = 1; i <= number; i++) {
                     result *= i;
                 }
                 return result;
             }
             else {
-                return System.Convert.ToDecimal(Gamma(decimal.ToDouble(number)));
+                return System.Convert.ToDecimal(Gamma(decimal.ToDouble(number + 1)));
             }
         }
 
         /**
          * Pomocná funkce pro Fact
          *
-         * @param   n nevim
+         * @param   n argument gama funkce
          */
 
         private static double Gamma(double n)
         {
-            int g = 7;
+            const int g = 7;
             double[] p = {0.99999999999980993, 676.5203681218851, -1259.1392167224028,
                                  771.32342877765313, -176.61502916214059, 12.507343278686905,
                                  -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7};
@@ -143,11 +143,11 @@ namespace MathLib
             }
             n -= 1;
             double x = p[0];
-            for (int i = 1; i < g; i++) {
+            for (int i = 1; i < g + 2; i++) {
                 x += p[i] / (n + i);
             }
             double t = n + g + 0.5;
-            return (System.Math.Sqrt(2 * System.Math.PI) * (System.Math.Pow(t, n + 0.5)) * System.Math.Exp(-t) * x) / 2;
+            return (System.Math.Sqrt(2 * System.Math.PI) * (System.Math.Pow(t, n + 0.5)) * System.Math.Exp(-t) * x);
         }
 
         /**

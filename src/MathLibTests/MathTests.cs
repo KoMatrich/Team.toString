@@ -203,7 +203,7 @@ namespace Tests
         {
             decimal[,] val =
             {
-                { 0, 1 }, { 1, 1}, {5, 120},{0.5m, 0.886226923674294m}
+                { 0, 1 }, { 1, 1}, {5, 120},{0.5m, 0.886226925452758013m}
             };
 
             for (int i = 0; i < val.GetLength(0); i++) {
@@ -211,7 +211,7 @@ namespace Tests
                 decimal y = val[i, 1];
 
                 string msg = $"({x})! != {y}";
-                Assert.IsTrue(Equal(Fact(x), y), msg);
+                Assert.IsTrue(Abs(Fact(x) - y) < 1e-15m, msg);
             }
         }
 
