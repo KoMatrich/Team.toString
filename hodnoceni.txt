@@ -1,0 +1,3 @@
+xkocic02 100 (správa repozitáře, základy mat. knihovny, testy pro mat. knihovnu, profiling, základ GUI, mockup)
+xkoren11 100 (implementace matematických funkcí, nahrazení funkcí aproximacemi, uživatelská příručka, mockup, instalátor)
+xkosik10 100 (GUI, zpracovájní vstupů pro GUI, zpracování finálního mockupu)
