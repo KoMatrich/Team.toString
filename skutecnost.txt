@@ -3,7 +3,7 @@ plán	X	skutečnost
 26. 3.	X	31. 3.	S menším zpožděním byla dodělaná kostra repositáře.
  2. 4.	X	 1. 4.	Implementovány testy matematické knihovny
  9. 4.	X	12. 4.	Implementována matematická knihovna bez dokumentace.
-			17. 4.	Přidána dokumentace k matematickým testů a knihovně
+			17. 4.	Přidána dokumentace k matematickým testům a knihovně
 
 					(Po domluvě na posunutí termínu)
 			18. 4.	Vytvořeno základní GUI bez funkcí.
@@ -12,11 +12,12 @@ plán	X	skutečnost
 
 16. 4.	X	17. 4.	Vytvořen program pro profiling
 			29. 4.	Uživatelská příručka
-			19. 4.	Přidána funkce talčítek pro GUI 
+			19. 4.	Přidána funkce tlačítek pro GUI 
 
 23. 4.	X	23. 4.	Instalátor
-			xx. x.	Byly provedeny případné optimalizace. (byly provedeny během vývoje)
 			29. 4.	Finální mockup
 
 26. 4.	X	29. 4.	Finální produkt
 29. 4.	X	29. 4.	odevzdání výsledného produktu
+
+Během vývoje byly průběžně prováděny různé optimalizace a drobné úpravy kódu.
