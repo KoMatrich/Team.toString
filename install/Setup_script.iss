@@ -8,6 +8,7 @@
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
+#define PathToFiles "src\GUI\bin\Release\net5.0-windows" 
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -38,14 +39,14 @@ Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\src\GUI\bin\Debug\net5.0-windows\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.deps.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.dev.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\MathLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\src\GUI\bin\Debug\net5.0-windows\MathLib.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\GUI.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\GUI.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\GUI.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\GUI.runtimeconfig.dev.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\GUI.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\MathLib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\{#PathToFiles}\MathLib.pdb"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
