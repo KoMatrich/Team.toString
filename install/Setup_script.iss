@@ -23,8 +23,9 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\Users\Computer\Downloads
+OutputDir=.\
 OutputBaseFilename=Calculator_setup
+SetupIconFile=..\src\GUI\calc.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,14 +38,14 @@ Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\GUI.deps.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\GUI.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\GUI.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.dev.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\MathLib.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Computer\source\repos\KoMatrich\Team.toString\src\GUI\bin\Debug\net5.0-windows\MathLib.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.dev.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\GUI.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\MathLib.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\GUI\bin\Debug\net5.0-windows\MathLib.pdb"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
@@ -60,4 +61,3 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-

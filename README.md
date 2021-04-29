@@ -18,7 +18,7 @@ Hlavní editor: VS 2019
 Dokumentace a postup instalace
 -------
 ```
-
+Základní informace, postup instalace a manuál je dostupný v PDF souboru Uživatelská příručka
 ```
 Autoři
 ------
