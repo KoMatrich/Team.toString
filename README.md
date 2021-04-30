@@ -39,7 +39,7 @@ každý pátek konzultace/schůzka/…
 - [x] 26. 3. 2021 základní formát struktury repozitáře, stubs, mockup
 - [x]  2. 4. 2021 testy matematické knihovny
 - [x]  9. 4. 2021 implementace matematické knihovny(dokumentace), základní GUI
-- [ ] 16. 4. 2021 testovací program pro profiling, uživatelská příručka, GUI
-- [ ] 23. 4. 2021 instalátor, případné optimalizace, finální mockup
-- [ ] 26. 4. 2021 finální produkt
-- [ ] 29. 4. 2021 odevzdání výsledného produktu
+- [x] 16. 4. 2021 testovací program pro profiling, uživatelská příručka, GUI
+- [x] 23. 4. 2021 instalátor, případné optimalizace, finální mockup
+- [x] 26. 4. 2021 finální produkt
+- [x] 29. 4. 2021 odevzdání výsledného produktu
