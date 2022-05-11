@@ -5,7 +5,7 @@ Základní informace
 ```
 Projekt do předmětu IVS
 Výsledným produktem je kalkulátor a samostatná matematická knihovna (včetně testů).
-Matematická knihovna byla vyvyinuta postupem TDD.
+Matematická knihovna byla vyvinuta postupem TDD.
 ```
 Vybrané platformy a nástroje
 -------
